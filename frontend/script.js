@@ -50,23 +50,30 @@ const postFetch = async (payload) => {
     return data    
 }
 
-const showResult = (ans) => {
+const showResult = (resp) => {
     const output = document.querySelector(".output")
     const container = document.createElement("div")
     while (output.hasChildNodes()) {
         output.removeChild(output.firstChild)
     }
+    console.log(typeof(resp["raw"]))
+    console.log(resp["raw"][0][1])
     if (advanced.checked) {
         const list = document.createElement("ul")
-        const item = document.createElement("li")
-        item.textContent = "0: 100%"
-        console.log(item)
-        list.appendChild(item)
+        for (let i = 0; i < 10; i++) {
+            const item = document.createElement("li")
+            item.textContent = `${i}: ${resp["raw"][0][i].toFixed(4)}%`
+            if (i == resp["ans"]) {
+                item.classList.add("answer")
+            }
+            console.log(resp["raw"][0][i])
+            list.appendChild(item)
+        }
         container.appendChild(list)
         output.appendChild(container)
     } else {
         const res = document.createElement("h3")
-        res.textContent = ans
+        res.textContent = resp["ans"]
         container.appendChild(res)
         output.appendChild(container)
     }
@@ -100,7 +107,7 @@ sendImg.addEventListener("click", async () => {
     // link.click()
     prediction = await postFetch(canvas.toDataURL("image/jpg"))
     console.log(prediction)
-    showResult(prediction["ans"])
+    showResult(prediction)
 
 })
 

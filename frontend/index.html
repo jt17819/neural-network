@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>jt17819 Neural Net Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script.js" defer></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <section class="tools-board">
+        <div class="row">
+          <h2>Neural Network Demo</h2>
+        </div>
+        <div class="row">
+          <label class="title">Choose A Network Base</label>
+          <ul class="options">
+            <li class="option active tool" id="my-nn">
+              <img src="images/nn-icon.svg" alt="">
+              <span>My Own</span>
+            </li>
+            <li class="option tool" id="pytorch">
+              <img src="images/pytorch.svg" alt="">
+              <span>PyTorch</span>
+            </li>
+            <li class="option tool" id="tensorflow">
+              <img src="images/tensorflow.svg" alt="">
+              <span>TensorFlow</span>
+            </li>
+            <li class="option">
+              <input type="checkbox" id="advanced">
+              <label for="advanced">Detailed Result</label>
+            </li>
+          </ul>
+        </div>
+        <div class="row buttons">
+          <button class="clear-canvas", id="clear">Clear</button>
+          <button class="send-img" id="submit">Predict</button>
+        </div>
+        <div class="row result invisible">
+          <p>What the Network thinks: </p>
+          <div class="output">
+            <h3>3</h3>
+          </div>
+        </div>
+      </section>
+      <section class="drawing-board">
+        <canvas>
+
+        </canvas>
+      </section>
+    </div>
+  </body>
+</html>

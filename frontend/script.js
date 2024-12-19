@@ -135,3 +135,7 @@ sendImg.addEventListener("click", async () => {
 canvas.addEventListener("mousedown", startDrawing)
 canvas.addEventListener("mouseup", stopDrawing)
 canvas.addEventListener("mousemove", drawing)
+
+canvas.addEventListener("touchstart", startDrawing)
+canvas.addEventListener("touchend", stopDrawing)
+canvas.addEventListener("touchmove", drawing)

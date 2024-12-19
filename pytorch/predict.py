@@ -1,6 +1,6 @@
 import torch
 import numpy as np
-from model import CNN, Model
+from model import Model
 import cv2 as cv
 from PIL import Image, ImageOps
 from io import BytesIO

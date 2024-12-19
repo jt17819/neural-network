@@ -1,8 +1,10 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import torch
 import numpy as np
 from predict import main
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def hello_world():

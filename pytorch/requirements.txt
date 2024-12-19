@@ -3,6 +3,7 @@
 torch==2.0.0+cpu
 numpy
 Flask
+Flask-Cors
 Gunicorn
 opencv-python
 pillow

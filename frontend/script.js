@@ -50,6 +50,18 @@ const postFetch = async (payload) => {
     return data    
 }
 
+const pyTorchPost = async (payload) => {
+    const options = { 
+        method: "POST",
+        body: JSON.stringify({"payload": payload}),
+        
+        headers: new Headers({ "Content-Type": "application/json"})
+    }
+    resp = await fetch("https://neural-network-7zl9.onrender.com/predict", options)
+    data = resp.json()
+    return data
+}
+
 const showResult = (resp) => {
     const output = document.querySelector(".output")
     const container = document.createElement("div")
@@ -57,7 +69,7 @@ const showResult = (resp) => {
         output.removeChild(output.firstChild)
     }
     console.log(typeof(resp["raw"]))
-    console.log(resp["raw"][0][1])
+    // console.log(resp["raw"][0][1])
     if (advanced.checked) {
         const list = document.createElement("ul")
         for (let i = 0; i < 10; i++) {
@@ -66,7 +78,7 @@ const showResult = (resp) => {
             if (i == resp["ans"]) {
                 item.classList.add("answer")
             }
-            console.log(resp["raw"][0][i])
+            // console.log(resp["raw"][0][i])
             list.appendChild(item)
         }
         container.appendChild(list)
@@ -78,8 +90,10 @@ const showResult = (resp) => {
         output.appendChild(container)
     }
     const result = document.querySelector(".result.invisible")
-    result.classList.remove("invisible")
-    result.classList.add("visible")
+    if (result) {
+        result.classList.remove("invisible")
+        result.classList.add("visible")
+    }
 }
 
 toolBtns.forEach(btn => {
@@ -105,7 +119,14 @@ sendImg.addEventListener("click", async () => {
     // link.href = canvas.toDataURL("image/jpg")
     // console.log(link.href)
     // link.click()
-    prediction = await postFetch(canvas.toDataURL("image/jpg"))
+    model = document.querySelector(".options .active")
+    console.log(model.id)
+    if (model.id == "my-nn") {
+        prediction = await postFetch(canvas.toDataURL("image/jpg"))
+    }
+    if (model.id == "pytorch") {
+        prediction = await pyTorchPost(canvas.toDataURL("image/jpg"))
+    }
     console.log(prediction)
     showResult(prediction)
 

@@ -96,6 +96,13 @@ const showResult = (resp) => {
     }
 }
 
+const btnTimeout = () => {
+    document.getElementById("submit").disabled = true
+    setTimeout(() => {
+        document.getElementById("submit").disabled = false
+    }, 5000);
+}
+
 toolBtns.forEach(btn => {
     btn.addEventListener("click", () => {
         document.querySelector(".options .active").classList.remove("active")
@@ -112,13 +119,20 @@ clearCanvas.addEventListener("click", () => {
     document.querySelector(".result").classList.add("invisible")
 })
 
-sendImg.addEventListener("click", async () => {
+sendImg.addEventListener("click", async (btn) => {
     // const link = document.createElement("a")
     // console.log(options)
     // link.download = `${Date.now()}.jpg`
     // link.href = canvas.toDataURL("image/jpg")
     // console.log(link.href)
     // link.click()
+    btn.disabled = true
+    setTimeout(() => {
+        btn.disabled = false
+        console.log("Enabled")
+    }, 5000)
+
+
     model = document.querySelector(".options .active")
     console.log(model.id)
     if (model.id == "my-nn") {
@@ -129,6 +143,7 @@ sendImg.addEventListener("click", async () => {
     }
     console.log(prediction)
     showResult(prediction)
+    btnTimeout()
 
 })
 

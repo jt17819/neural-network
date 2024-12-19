@@ -113,11 +113,23 @@ section {
 .clear-canvas:hover {
     color: #fff;
     background: #6C757D;
+    cursor: pointer;
 }
 
 .buttons .send-img {
     background: #4A98F7;
     border: 1px solid #4A98F7;
+}
+
+.send-img:hover {
+    background: #1768ca;
+    cursor: pointer;
+}
+
+.buttons .send-img:disabled {
+    background: #134c92;
+    border: 1px solid #4A98F7;
+    cursor: default
 }
 
 .drawing-board {

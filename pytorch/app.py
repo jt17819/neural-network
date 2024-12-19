@@ -13,9 +13,10 @@ def hello_world():
 @app.route('/predict', methods=["GET", "POST"])
 def predict():
     if request.method == "POST":
-        data = request.form
+        data = request.get_json()
         print(data)
         print(type(data))
+        print(data["payload"])
 
     arr = np.array([1,2,3])
     tensor = torch.from_numpy(arr)

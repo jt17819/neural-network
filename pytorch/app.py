@@ -12,6 +12,8 @@ def hello_world():
 def predict():
     if request.method == "POST":
         data = request.form
+        print(data)
+        print(type(data))
 
     arr = np.array([1,2,3])
     tensor = torch.from_numpy(arr)

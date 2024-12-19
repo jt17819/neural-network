@@ -10,9 +10,9 @@ def lambda_handler(event, context):
         # print(event["body"])
         img_data = event["body"].split(",")[1]
         img = base64.b64decode(img_data)
-        with open("/tmp/img.jpg", "wb") as file:
-            file.write(img)
-        ans, probs = predict()
+        # with open("/tmp/img.jpg", "wb") as file:
+        #     file.write(img)
+        ans, probs = predict(img)
     else:        
         ans, probs = test()
     # print(ans)

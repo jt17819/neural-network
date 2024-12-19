@@ -10,7 +10,7 @@ def main(raw_data):
     # print(device)
 
     model = Model().to(device)
-    model.load_state_dict(torch.load("pytorch-arch/94-mnist-pytorch.pt", weights_only=True))
+    model.load_state_dict(torch.load("94-mnist-pytorch.pt", weights_only=True))
     model.eval()
     
     im = ImageOps.grayscale(Image.open(BytesIO(raw_data)))

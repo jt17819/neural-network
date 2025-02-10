@@ -141,6 +141,9 @@ sendImg.addEventListener("click", async (btn) => {
     if (model.id == "pytorch") {
         prediction = await pyTorchPost(canvas.toDataURL("image/jpg"))
     }
+    if (model.id == "tensorflow") {
+        prediction = await postFetch(canvas.toDataURL("image/jpg"))
+    }
     console.log(prediction)
     showResult(prediction)
     btnTimeout()

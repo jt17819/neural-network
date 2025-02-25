@@ -16,8 +16,9 @@ body {
 
 }
 
-p, h3, h2 {
+p, h3, h2, h4 {
     margin-top: 7px;
+    margin-bottom: 14px;
     text-align: center;
     color: #484e53;
 }

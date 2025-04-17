@@ -1,0 +1,7 @@
+**/__pycache__/**
+backend*.zip
+mnist_data
+mnist_arch
+pytorch-arch
+mnist*
+digit3-1.png

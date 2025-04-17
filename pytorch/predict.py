@@ -27,7 +27,6 @@ def main(raw_data):
         data = torch.from_numpy(im)
         output = model.forward(data)
     pred = output.max(2)[1] # get the index of the max log-
-    print(pred[0][0], output)
 
     return pred[0][0].item(), output.tolist()[0]
 

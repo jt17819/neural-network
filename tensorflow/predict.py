@@ -1,9 +1,10 @@
+import os
 import numpy as np
 import tf_keras
 from PIL import Image, ImageOps
 from io import BytesIO
 
-MODEL_PATH = "digits_model-99.keras"
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "digits_model-99.h5")
 
 def predict(raw_data):
     """

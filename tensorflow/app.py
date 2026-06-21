@@ -8,7 +8,7 @@ CORS(app)
 
 @app.route('/')
 def hello_world():
-    return 'Hello, World!'
+    return jsonify({"message": "Hello, World!"})
 
 @app.route('/predict', methods=["POST"])
 def predict_route():

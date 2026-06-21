@@ -1,5 +1,5 @@
 import numpy as np
-import tensorflow as tf
+import tf_keras
 from PIL import Image, ImageOps
 from io import BytesIO
 
@@ -9,7 +9,7 @@ def predict(raw_data):
     """
     Accepts raw image bytes, returns (predicted_digit, confidence_scores).
     """
-    model = tf.keras.models.load_model(MODEL_PATH)
+    model = tf_keras.models.load_model(MODEL_PATH)
 
     im = ImageOps.grayscale(Image.open(BytesIO(raw_data)))
     im = im.resize((28, 28), Image.Resampling.LANCZOS)

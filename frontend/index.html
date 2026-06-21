@@ -10,6 +10,29 @@
 
   <body>
     <div class="container">
+      <section class="tools-board">
+        <div class="row">
+          <h2>Neural Network Demo (WIP)</h2>
+        </div>
+        <div class="title">
+          <h4>Draw a number between 0 and 9 on the canvas and the neural networks will guess which one you've drawn</h4>
+        </div>
+        <div class="row">
+          <ul class="options">
+            <li class="option">
+              <input type="checkbox" id="advanced">
+              <label for="advanced">Detailed Result</label>
+            </li>
+          </ul>
+        </div>
+        <div class="row buttons">
+          <button class="clear-canvas" id="clear">Clear</button>
+          <button class="send-img" id="submit">Predict</button>
+        </div>
+      </section>
+      <section class="drawing-board">
+        <canvas></canvas>
+      </section>
       <section class="results-board">
         <div class="row">
           <h2>Models</h2>
@@ -39,29 +62,6 @@
             <span class="model-desc">CNN trained using TensorFlow/Keras. Achieved ~99% accuracy on the MNIST test set.</span>
             <div class="model-output"></div>
           </div>
-        </div>
-      </section>
-      <section class="drawing-board">
-        <canvas></canvas>
-      </section>
-      <section class="tools-board">
-        <div class="row">
-          <h2>Neural Network Demo (WIP)</h2>
-        </div>
-        <div class="title">
-          <h4>Draw a number between 0 and 9 on the canvas and the neural network will guess which one you've drawn</h4>
-        </div>
-        <div class="row">
-          <ul class="options">
-            <li class="option">
-              <input type="checkbox" id="advanced">
-              <label for="advanced">Detailed Result</label>
-            </li>
-          </ul>
-        </div>
-        <div class="row buttons">
-          <button class="clear-canvas" id="clear">Clear</button>
-          <button class="send-img" id="submit">Predict</button>
         </div>
       </section>
     </div>

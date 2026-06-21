@@ -48,6 +48,12 @@ section {
     border-radius: 7px;
 }
 
+.results-board {
+    width: 210px;
+    padding: 15px 12px;
+    overflow-y: auto;
+}
+
 .tools-board {
     width: 210px;
     padding: 15px 22px 0;
@@ -161,6 +167,68 @@ section {
     font-weight: bold;
 }
 
+.model-result {
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+}
+
+.model-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.model-header img {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.model-result p {
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin: 0;
+    text-align: left;
+    color: #484e53;
+}
+
+.model-desc {
+    display: block;
+    font-size: 0.75rem;
+    color: #888;
+    margin-bottom: 6px;
+    line-height: 1.4;
+}
+
+.model-output h3 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #4A98F7;
+    margin: 4px 0;
+    text-align: center;
+}
+
+.model-output ul {
+    font-size: 0.75rem;
+    margin-top: 4px;
+    columns: 2;
+    column-gap: 12px;
+}
+
+.model-output .loading {
+    color: #aaa;
+    font-style: italic;
+    font-size: 0.85rem;
+}
+
+.model-output .error {
+    color: #dc3545;
+    font-size: 0.85rem;
+}
+
 @media (max-width: 800px) {
     .container {
         flex-direction: column;
@@ -168,8 +236,9 @@ section {
 }
 
 @media (max-width: 800px) {
+    .results-board,
     .tools-board {
         width: auto;
-        margin: 20px 5px 5px 5px;
+        margin: 5px;
     }
 }

@@ -10,28 +10,49 @@
 
   <body>
     <div class="container">
+      <section class="results-board">
+        <div class="row">
+          <h2>Models</h2>
+        </div>
+        <div class="row result">
+          <div class="model-result" id="result-my-nn">
+            <div class="model-header">
+              <img src="images/nn-icon.svg" alt="My Network icon">
+              <p>My Network</p>
+            </div>
+            <span class="model-desc">Built from scratch — no ML libraries. Custom layers, activations, and backpropagation written in pure Python.</span>
+            <div class="model-output"></div>
+          </div>
+          <div class="model-result" id="result-pytorch">
+            <div class="model-header">
+              <img src="images/pytorch.svg" alt="PyTorch icon">
+              <p>PyTorch</p>
+            </div>
+            <span class="model-desc">CNN trained using PyTorch. Achieved ~94% accuracy on the MNIST test set.</span>
+            <div class="model-output"></div>
+          </div>
+          <div class="model-result" id="result-tensorflow">
+            <div class="model-header">
+              <img src="images/tensorflow.svg" alt="TensorFlow icon">
+              <p>TensorFlow</p>
+            </div>
+            <span class="model-desc">CNN trained using TensorFlow/Keras. Achieved ~99% accuracy on the MNIST test set.</span>
+            <div class="model-output"></div>
+          </div>
+        </div>
+      </section>
+      <section class="drawing-board">
+        <canvas></canvas>
+      </section>
       <section class="tools-board">
         <div class="row">
           <h2>Neural Network Demo (WIP)</h2>
         </div>
         <div class="title">
-          <h4>Draw a number between 0 and 9 and the neural network will guess which one you've drawn</h4>
+          <h4>Draw a number between 0 and 9 on the canvas and the neural network will guess which one you've drawn</h4>
         </div>
         <div class="row">
-          <label class="title">Choose A Network Base</label>
           <ul class="options">
-            <li class="option active tool" id="my-nn">
-              <img src="images/nn-icon.svg" alt="">
-              <span>My Own</span>
-            </li>
-            <li class="option tool" id="pytorch">
-              <img src="images/pytorch.svg" alt="">
-              <span>PyTorch</span>
-            </li>
-            <li class="option tool" id="tensorflow">
-              <img src="images/tensorflow.svg" alt="">
-              <span>TensorFlow (WIP)</span>
-            </li>
             <li class="option">
               <input type="checkbox" id="advanced">
               <label for="advanced">Detailed Result</label>
@@ -39,20 +60,9 @@
           </ul>
         </div>
         <div class="row buttons">
-          <button class="clear-canvas", id="clear">Clear</button>
+          <button class="clear-canvas" id="clear">Clear</button>
           <button class="send-img" id="submit">Predict</button>
         </div>
-        <div class="row result invisible">
-          <p>What the Network thinks: </p>
-          <div class="output">
-            <h3>3</h3>
-          </div>
-        </div>
-      </section>
-      <section class="drawing-board">
-        <canvas>
-
-        </canvas>
       </section>
     </div>
   </body>

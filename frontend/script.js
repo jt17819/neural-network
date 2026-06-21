@@ -1,17 +1,17 @@
 const canvas = document.querySelector("canvas")
-const toolBtns = document.querySelectorAll(".tool")
 const clearCanvas = document.querySelector(".clear-canvas")
 const sendImg = document.querySelector(".send-img")
 const advanced = document.querySelector("#advanced")
 let ctx = canvas.getContext("2d")
 
 let isDrawing = false
-let selectedOption = "my-nn"
 let brushWidth = Math.floor(canvas.offsetWidth / 12)
+
+const TF_URL = "https://tensorflow-neural-network.onrender.com/predict"
 
 const setCanvasBackground = () => {
     ctx.fillStyle = "#fff"
-    ctx.fillRect(0, 0, canvas.width, canvas.height, )
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
     ctx.fillStyle = "#000"
 }
 
@@ -33,121 +33,109 @@ const stopDrawing = () => {
 }
 
 const drawing = (e) => {
-    if(!isDrawing) return
+    if (!isDrawing) return
     ctx.lineTo(e.offsetX, e.offsetY)
     ctx.stroke()
 }
 
 const postFetch = async (payload) => {
-    const options = { 
+    const options = {
         method: "POST",
         body: JSON.stringify({"payload": payload}),
-        
-        headers: new Headers({ "X-Api-Key": "AxZaVHIQOY1E9rkq2tiNu3p8IbDAi7FN9K667KSB", "Content-Type": "application/x-www-form-urlencoded"})
+        headers: new Headers({"X-Api-Key": "AxZaVHIQOY1E9rkq2tiNu3p8IbDAi7FN9K667KSB", "Content-Type": "application/x-www-form-urlencoded"})
     }
-    resp = await fetch("https://8g46y1f790.execute-api.eu-west-2.amazonaws.com/default/neural-network-demo", options)
-    data = await resp.json()
-    return data    
+    const resp = await fetch("https://8g46y1f790.execute-api.eu-west-2.amazonaws.com/default/neural-network-demo", options)
+    return resp.json()
 }
 
 const pyTorchPost = async (payload) => {
-    const options = { 
+    const options = {
         method: "POST",
         body: JSON.stringify({"payload": payload}),
-        
-        headers: new Headers({ "Content-Type": "application/json"})
+        headers: new Headers({"Content-Type": "application/json"})
     }
-    resp = await fetch("https://neural-network-7zl9.onrender.com/predict", options)
-    data = resp.json()
-    return data
+    const resp = await fetch("https://neural-network-7zl9.onrender.com/predict", options)
+    return resp.json()
 }
 
-const showResult = (resp) => {
-    const output = document.querySelector(".output")
-    const container = document.createElement("div")
-    while (output.hasChildNodes()) {
-        output.removeChild(output.firstChild)
+const tensorflowPost = async (payload) => {
+    const options = {
+        method: "POST",
+        body: JSON.stringify({"payload": payload}),
+        headers: new Headers({"Content-Type": "application/json"})
     }
-    console.log(typeof(resp["raw"]))
-    // console.log(resp["raw"][0][1])
+    const resp = await fetch(TF_URL, options)
+    return resp.json()
+}
+
+// Handle both 2D [[...]] and 1D [...] raw output formats
+const getRaw = (resp) => Array.isArray(resp["raw"][0]) ? resp["raw"][0] : resp["raw"]
+
+const lastResults = { "my-nn": null, "pytorch": null, "tensorflow": null }
+
+const showModelLoading = (modelId) => {
+    document.querySelector(`#result-${modelId} .model-output`).innerHTML = `<span class="loading">Loading...</span>`
+}
+
+const showModelResult = (modelId, resp, isError = false) => {
+    const output = document.querySelector(`#result-${modelId} .model-output`)
+    output.innerHTML = ""
+
+    if (isError) {
+        output.innerHTML = `<span class="error">Error</span>`
+        return
+    }
+
+    lastResults[modelId] = resp
+
     if (advanced.checked) {
+        const raw = getRaw(resp)
         const list = document.createElement("ul")
         for (let i = 0; i < 10; i++) {
             const item = document.createElement("li")
-            item.textContent = `${i}: ${resp["raw"][0][i].toFixed(4)}%`
-            if (i == resp["ans"]) {
-                item.classList.add("answer")
-            }
-            // console.log(resp["raw"][0][i])
+            item.textContent = `${i}: ${(raw[i] * 100).toFixed(2)}%`
+            if (i == resp["ans"]) item.classList.add("answer")
             list.appendChild(item)
         }
-        container.appendChild(list)
-        output.appendChild(container)
+        output.appendChild(list)
     } else {
-        const res = document.createElement("h3")
-        res.textContent = resp["ans"]
-        container.appendChild(res)
-        output.appendChild(container)
-    }
-    const result = document.querySelector(".result.invisible")
-    if (result) {
-        result.classList.remove("invisible")
-        result.classList.add("visible")
+        output.innerHTML = `<h3>${resp["ans"]}</h3>`
     }
 }
 
-const btnTimeout = () => {
-    document.getElementById("submit").disabled = true
-    setTimeout(() => {
-        document.getElementById("submit").disabled = false
-    }, 5000);
-}
-
-toolBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-        document.querySelector(".options .active").classList.remove("active")
-        btn.classList.add("active")
-        selectedOption = btn.id
-        console.log(selectedOption)
-    })
+advanced.addEventListener("change", () => {
+    for (const [id, resp] of Object.entries(lastResults)) {
+        if (resp !== null) showModelResult(id, resp)
+    }
 })
 
 clearCanvas.addEventListener("click", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     setCanvasBackground()
-    document.querySelector(".result").classList.remove("visible")
-    document.querySelector(".result").classList.add("invisible")
+    document.querySelectorAll(".model-output").forEach(el => el.innerHTML = "")
+    lastResults["my-nn"] = null
+    lastResults["pytorch"] = null
+    lastResults["tensorflow"] = null
 })
 
-sendImg.addEventListener("click", async (btn) => {
-    // const link = document.createElement("a")
-    // console.log(options)
-    // link.download = `${Date.now()}.jpg`
-    // link.href = canvas.toDataURL("image/jpg")
-    // console.log(link.href)
-    // link.click()
-    btn.disabled = true
-    setTimeout(() => {
-        btn.disabled = false
-        console.log("Enabled")
-    }, 5000)
+sendImg.addEventListener("click", async (e) => {
+    e.target.disabled = true
+    setTimeout(() => { e.target.disabled = false }, 5000)
 
+    const payload = canvas.toDataURL("image/jpg")
 
-    model = document.querySelector(".options .active")
-    console.log(model.id)
-    if (model.id == "my-nn") {
-        prediction = await postFetch(canvas.toDataURL("image/jpg"))
-    }
-    if (model.id == "pytorch") {
-        prediction = await pyTorchPost(canvas.toDataURL("image/jpg"))
-    }
-    if (model.id == "tensorflow") {
-        prediction = await postFetch(canvas.toDataURL("image/jpg"))
-    }
-    console.log(prediction)
-    showResult(prediction)
-    btnTimeout()
+    showModelLoading("my-nn")
+    showModelLoading("pytorch")
+    showModelLoading("tensorflow")
 
+    const run = (id, promise) =>
+        promise
+            .then(resp => showModelResult(id, resp, false))
+            .catch(() => showModelResult(id, null, true))
+
+    run("my-nn", postFetch(payload))
+    run("pytorch", pyTorchPost(payload))
+    run("tensorflow", tensorflowPost(payload))
 })
 
 canvas.addEventListener("mousedown", startDrawing)
@@ -157,3 +145,4 @@ canvas.addEventListener("mousemove", drawing)
 canvas.addEventListener("touchstart", startDrawing)
 canvas.addEventListener("touchend", stopDrawing)
 canvas.addEventListener("touchmove", drawing)
+
